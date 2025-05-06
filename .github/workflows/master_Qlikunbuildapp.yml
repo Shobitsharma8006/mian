@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://qlikunbuild-h2hzgbgzh9cehvfn.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_ff5426f98ac94d238b807b1f458545f6 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_8b22c22fc51a4a4a9ac1bfcb42d01133 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_4a15a97bde244b429d20b0753b0ec8f8 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_c9fe1b6ee4754f48a6d67883ba140b94 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: qlikunbuild-h2hzgbgzh9cehvfn.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ff5426f98ac94d238b807b1f458545f6 }}/mcr.microsoft.com/appsvc/staticsite:${{ github.sha }}
+        tags: qlikunbuild-h2hzgbgzh9cehvfn.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_4a15a97bde244b429d20b0753b0ec8f8 }}/appsvc/staticsite:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'Qlikunbuildapp'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_c0b26f3bd708452ba3af517547471c39 }}
-        images: 'qlikunbuild-h2hzgbgzh9cehvfn.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ff5426f98ac94d238b807b1f458545f6 }}/mcr.microsoft.com/appsvc/staticsite:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_2e6b3a1aabae46d5ad30b9baf6c027fb }}
+        images: 'qlikunbuild-h2hzgbgzh9cehvfn.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_4a15a97bde244b429d20b0753b0ec8f8 }}/appsvc/staticsite:${{ github.sha }}'
