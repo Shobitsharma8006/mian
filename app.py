@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # ─── CONFIGURATION ─────────────────────────────────────────────────────────────
 CONFIG = {
-    "AZURE_DEVOPS_PAT": "2kfFgTx6TE3daswhpYne2SP7tJc323FQiJYFyHhD1VPnduljakTZJQQJ99BDACAAAAAB0o46AAASAZDO2EXx",
+    "AZURE_DEVOPS_PAT": "D5nB4HR81sJDpwDglNmd7qgpVlKxmFRNVRB1odqN9yzpYbJ3n6K6JQQJ99BEACAAAAAB0o46AAASAZDO35Wy",
     "ORGANIZATION": "amrit0258",
     "PROJECT": "Switchblade",
     "REPO": "Unbuilt_Apps",
