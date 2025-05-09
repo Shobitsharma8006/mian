@@ -63,12 +63,12 @@ def unbuild_app():
         output_root = "unbuild_output"
         output_folder = os.path.join(output_root, folder_name)
         os.makedirs(output_folder, exist_ok=True)
-
         cmd = (
-            f'qlik app unbuild --app "{app_id}" '
-            f'--dir "{output_folder}" '
-            f'--headers Authorization="Bearer {api_key}" --verbose'
-        )
+             f'qlik app unbuild --app "{app_id}" '
+             f'--server "{qlik_server}" '
+             f'--dir "{output_folder}" '
+             f'--headers Authorization="Bearer {api_key}" --verbose'
+         )
         print("→ Running:", cmd)
         os.system(cmd)
 
