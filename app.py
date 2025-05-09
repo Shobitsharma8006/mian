@@ -4,7 +4,6 @@ import base64
 import datetime
 from flask import Flask, request, jsonify
 import requests
-import subprocess
 
 app = Flask(__name__)
 
@@ -65,20 +64,13 @@ def unbuild_app():
         output_folder = os.path.join(output_root, folder_name)
         os.makedirs(output_folder, exist_ok=True)
 
-        # ─── Replace os.system with subprocess.run ───────────────────────
-        cmd = [
-            'qlik', 'app', 'unbuild',
-            '--app', app_id,
-            '--dir', output_folder,
-            '--headers', f'Authorization=Bearer {api_key}',
-            '--verbose'
-        ]
-        print("→ Running:", " ".join(cmd))
-        result = subprocess.run(cmd, capture_output=True, text=True)
-
-        if result.returncode != 0:
-            print("[ERROR] Command failed:", result.stderr)
-            return f"Command failed: {result.stderr}", 500
+        cmd = (
+            f'qlik app unbuild --app "{app_id}" '
+            f'--dir "{output_folder}" '
+            f'--headers Authorization="Bearer {api_key}" --verbose'
+        )
+        print("→ Running:", cmd)
+        os.system(cmd)
 
         if not any(os.scandir(output_folder)):
             return "No files found after unbuild", 400
@@ -125,4 +117,4 @@ def unbuild_app():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 9008)), debug=True)
+    app.run(host="0.0.0.0", port=9008, debug=True)
