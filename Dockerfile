@@ -16,15 +16,14 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     ca-certificates \
     build-essential \
-    unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js (required for some Qlik CLI functionalities)
+# Install Node.js (required for Qlik CLI)
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
 
-# Manually install qlik CLI
+# Install qlik-cli
 RUN curl -L https://github.com/qlik-oss/qlik-cli/releases/download/v2.26.0/qlik-Linux-x86_64.tar.gz -o qlik-cli.tar.gz && \
     tar -xzf qlik-cli.tar.gz && \
     mv qlik /usr/local/bin/qlik && \
@@ -42,4 +41,3 @@ EXPOSE 9008
 
 # Run the application
 CMD ["python", "app.py"]
-
