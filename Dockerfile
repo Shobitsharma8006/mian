@@ -12,17 +12,17 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     curl \
+    unzip \
     git \
-    gnupg \
     ca-certificates \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Node.js (required for Qlik CLI)
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs && \
-    npm install -g @qlik/cli && \
-    rm -rf /var/lib/apt/lists/*
+# Install Qlik CLI
+RUN curl -L https://github.com/qlik-oss/qlik-cli/releases/download/v0.27.0/qlik-linux-amd64.zip -o qlik.zip && \
+    unzip qlik.zip -d /usr/local/bin && \
+    chmod +x /usr/local/bin/qlik && \
+    rm qlik.zip
 
 # Copy application code
 COPY . .
