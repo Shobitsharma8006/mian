@@ -31,7 +31,6 @@ QLIK_HEADERS = {
     "Content-Type": "application/json"
 }
 
-
 @app.route("/getApps", methods=["GET"])
 def get_apps():
     try:
@@ -45,7 +44,6 @@ def get_apps():
     except Exception as e:
         print("[ERROR] get_apps:", e)
         return "Failed to fetch apps", 500
-
 
 @app.route("/unbuildApp", methods=["POST"])
 def unbuild_app():
@@ -106,15 +104,17 @@ def unbuild_app():
 
         presp = requests.post(push_url, headers=AZURE_HEADERS, json=push_body)
         if presp.status_code == 201:
-            return "Success", 200
-        else:
+            return jsonify({
+                "appName": app_name,
+                "folderName": folder_name,
+                "message": f"App unbuilt and pushed to Azure DevOps successfully in folder: {folder_name}"
+            }), 200
             print("[ERROR] Azure push:", presp.status_code, presp.text)
             return "Push failed", 500
 
     except Exception as e:
         print("[ERROR] unbuild_app:", e)
         return "Server error", 500
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=9008, debug=True)
