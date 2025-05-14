@@ -9,16 +9,16 @@ app = Flask(__name__)
 
 # ─── CONFIGURATION ─────────────────────────────────────────────────────────────
 CONFIG = {
-    "AZURE_DEVOPS_PAT": "D5nB4HR81sJDpwDglNmd7qgpVlKxmFRNVRB1odqN9yzpYbJ3n6K6JQQJ99BEACAAAAAB0o46AAASAZDO35Wy",
-    "ORGANIZATION": "amrit0258",
-    "PROJECT": "Switchblade",
-    "REPO": "Unbuilt_Apps",
-    "API_VERSION": "7.1",
-    "BASE_URL": "https://dev.azure.com/{ORGANIZATION}/{PROJECT}/_apis/git/repositories/{REPO}"
+    "AZURE_DEVOPS_PAT": os.getenv("AZURE_DEVOPS_PAT"),
+    "ORGANIZATION": os.getenv("ORGANIZATION"),
+    "PROJECT": os.getenv("PROJECT"),
+    "REPO": os.getenv("REPO"),
+    "API_VERSION": os.getenv("API_VERSION", "7.1"),  # Default value if not set
+    "BASE_URL": os.getenv("BASE_URL", "https://dev.azure.com/{ORGANIZATION}/{PROJECT}/_apis/git/repositories/{REPO}")
 }
 
-qlik_server = "https://nhbmsqcubd4gp2k.in.qlikcloud.com"
-api_key = "eyJhbGciOiJFUzM4NCIsImtpZCI6IjNhOWRhNzE5LTUxM2MtNGJiZC1hYTc0LTMxOGNiYTJhZjhhZSIsInR5cCI6IkpXVCJ9.eyJzdWJUeXBlIjoidXNlciIsInRlbmFudElkIjoiUG5aZlNFOW5LUlJleXFhZl96R3M5VEtacUVJRkVzd0MiLCJqdGkiOiIzYTlkYTcxOS01MTNjLTRiYmQtYWE3NC0zMThjYmEyYWY4YWUiLCJhdWQiOiJxbGlrLmFwaSIsImlzcyI6InFsaWsuYXBpL2FwaS1rZXlzIiwic3ViIjoiNjc5NzA3ZTNmZGM0ZTE3MjBmZTM1NzAyIn0.-D9r96Q3M1hFnpKoC_0f9S8dLyS3OGOvfdIA4GdMqph68sjJqihLChNQLCxoBiwJGLViR1WUiihP1lQm128VrZTcT7K0GgZPBv6AhQGxixR-XN3n83-MyrN6fEPe8SJ9"
+qlik_server = os.getenv("QLIK_SERVER")  # Default Qlik server if not set
+api_key = os.getenv("QLIK_API_KEY")
 
 # ─── AUTH HEADERS ──────────────────────────────────────────────────────────────
 PAT_ENCODED = base64.b64encode(f":{CONFIG['AZURE_DEVOPS_PAT']}".encode()).decode("ascii")
@@ -109,6 +109,7 @@ def unbuild_app():
                 "folderName": folder_name,
                 "message": f"App unbuilt and pushed to Azure DevOps successfully in folder: {folder_name}"
             }), 200
+        else:
             print("[ERROR] Azure push:", presp.status_code, presp.text)
             return "Push failed", 500
 
