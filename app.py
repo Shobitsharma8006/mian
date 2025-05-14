@@ -1,12 +1,13 @@
 import os
 import json
 import base64
+from dotenv import load_dotenv
 import datetime
 from flask import Flask, request, jsonify
 import requests
 
 app = Flask(__name__)
-
+load_dotenv()
 # ─── CONFIGURATION ─────────────────────────────────────────────────────────────
 CONFIG = {
     "AZURE_DEVOPS_PAT": os.getenv("AZURE_DEVOPS_PAT"),
